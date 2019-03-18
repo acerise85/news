@@ -23,7 +23,7 @@ app.use(express.static('public'));
 
 // Database config with Mongoose
 // define local MongoDB URI
-let databaseUri = "mongodb://<dbuser>:<dbpassword>@ds121753.mlab.com:21753/heroku_qhndphn2";
+let databaseUri = "mongodb://localhost/mongoHeadlines"
 if (process.env.MONGODB_URI){
     //heroku execution
     mongoose.connect(process.env.MONGODB_URI);
@@ -41,7 +41,13 @@ db.on('error', function(err){
 
 });
 
+// Start the server
+app.listen(PORT, function() {
+    console.log("App running on port " + PORT + "!");
+  });
 //log success message once logged into the db through mongoose
 db.once('open', function(){
     console.log("Mongoose connection successful.");
 });
+
+  
