@@ -41,6 +41,56 @@ db.on('error', function(err){
 
 });
 
+//Routes
+
+//GET route for scraping website
+app.get("/", function(req,res){
+    axios.get("https://www.denverpost.com/").then(function(response){
+        let $ = cheerio.load(response.data);
+        console.log(response);
+        //grab all h6
+        $("h6").each(function(i, element){
+            //save results in object
+            let res = {};
+
+            res.headline = $(this)
+            .children("a")
+            .text();
+            res.summary = $(this)
+            .children("p")
+            .text();
+            res.link = $(this)
+            .children("a")
+            .attr("href");
+
+            //new article creation
+            db.articles.create(res)
+            .then(function(dbarticles){
+
+                console.log(dbarticles);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        });
+        res.send("Scrape Complete");
+
+    });
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
 // Start the server
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
