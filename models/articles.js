@@ -10,19 +10,19 @@ let articlesSchema = new Schema ({
         type: String,
         required: true,
         trim: true,
-        unique: true
+        // unique: true
     },
     //summary
     summary: {
         type: String,
         trim: true,
-        required: true,
+        // required: true,
         
     },
     //link
     link: {
         type: String,
-        required: true
+        // required: true
     }
     
 });

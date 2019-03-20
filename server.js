@@ -21,6 +21,9 @@ app.use(express.json())
 //make public folder a static directory
 app.use(express.static('public'));
 
+
+// require("./routes/api-routes.js")(app);
+
 // Database config with Mongoose
 // define local MongoDB URI
 let databaseUri = "mongodb://localhost/mongoHeadlines"
@@ -33,18 +36,26 @@ else{
     mongoose.connect(databaseUri);
 }
 
-let db = mongoose.connection;
+
+let db = require('./models');
+
+
+mongoose.connect("mongodb://localhost/mongoHeadlines", {useNewUrlParser: true});
+
+// let db = mongoose.connection || 
 
 //show mongoose errors
-db.on('error', function(err){
-    console.log('Mongoose Error: ', err);
+// db.on('error', function(err){
+//     console.log('Mongoose Error: ', err);
 
-});
+// });
 
 //Routes
 
 //GET route for scraping website
-app.get("/", function(req,res){
+app.get("/scrape", function(req,res){
+console.log("hellpo")
+
     axios.get("https://www.denverpost.com/").then(function(response){
         let $ = cheerio.load(response.data);
         console.log(response);
@@ -64,7 +75,7 @@ app.get("/", function(req,res){
             .attr("href");
 
             //new article creation
-            db.articles.create(res)
+            db.article.create(res)
             .then(function(dbarticles){
 
                 console.log(dbarticles);
@@ -96,8 +107,8 @@ app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
   });
 //log success message once logged into the db through mongoose
-db.once('open', function(){
-    console.log("Mongoose connection successful.");
-});
+// db.once('open', function(){
+//     console.log("Mongoose connection successful.");
+// });
 
   
