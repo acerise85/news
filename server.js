@@ -6,11 +6,16 @@ let express = require('express');
 let axios = require('axios');
 let cheerio = require('cheerio');
 
+let app = express();
+//Handlebars
+let exphbs = require("express-handlebars");
 
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 let PORT = 3000;
 
-let app = express();
 //morgan and body parser
 app.use(logger('dev'));
 app.use(express.urlencoded({
@@ -68,7 +73,7 @@ console.log("hellpo")
             .children("a")
             .text();
             res.summary = $(this)
-            .children("p")
+            .children("<div> .excerpt")
             .text();
             res.link = $(this)
             .children("a")
@@ -91,6 +96,19 @@ console.log("hellpo")
 
 });
 
+app.get("/savedArticle", function(req,res){
+        
+    db.article.find({})
+    .then(function(dbarticles) {
+        // If we were able to successfully find Articles, send them back to the client
+        res.json(dbarticles);
+      })
+      .catch(function(err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+      });
+
+});
 
 
 
@@ -106,9 +124,6 @@ console.log("hellpo")
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
   });
-//log success message once logged into the db through mongoose
-// db.once('open', function(){
-//     console.log("Mongoose connection successful.");
-// });
+
 
   
