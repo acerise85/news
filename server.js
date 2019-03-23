@@ -62,17 +62,19 @@ app.get("/", function (req, res) {
         res.render("index", { items: data })
 
     });
-    
+
 });
+
+
+
 //GET route for scraping website
 app.get("/scrape", function (req, res) {
-   
     axios.get("https://www.denverpost.com/").then(function (response) {
         let $ = cheerio.load(response.data);
         console.log(response);
 
         db.article.find({}).then(function (alreadySaved) {
-        newArticlesAdded = 0
+            newArticlesAdded = 0
             //grab all h6
             $("h6").each(function (i, element) {
                 //save results in object
@@ -90,20 +92,20 @@ app.get("/scrape", function (req, res) {
 
                 //new article creation
                 var storyIsIndb = false
-                
+
                 for (let i = 0; i < alreadySaved.length; i++) {
-                                      
-                    if(alreadySaved[i].link == res.link){
+
+                    if (alreadySaved[i].link == res.link) {
                         storyIsIndb = true
                         console.log('storyIsIndb:' + storyIsIndb);
-                        
-                    } 
+
+                    }
                 }
 
                 if (storyIsIndb == false) {
                     newArticlesAdded++
-                    
-                    
+
+
                     db.article.create(res)
                         .then(function (dbarticles) {
 
@@ -123,12 +125,12 @@ app.get("/scrape", function (req, res) {
 
 });
 
-app.get("/savedArticle", function (req, res) {
+app.get("/note", function (req, res) {
 
-    db.article.find({})
-        .then(function (dbarticles) {
+    db.Note.find({_articleId: req.params.id})
+        .then(function (dbNote) {
             // If we were able to successfully find Articles, send them back to the client
-            res.json(dbarticles);
+            res.json(dbNote);
         })
         .catch(function (err) {
             // If an error occurred, send it to the client
@@ -140,7 +142,13 @@ app.get("/savedArticle", function (req, res) {
 
 
 
+app.post('/note', function (req, res) {
 
+    db.Note.create(req.body).then(function (dbNote) {
+        res.json(dbNote);
+    });
+
+});
 
 
 

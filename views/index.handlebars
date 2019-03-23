@@ -36,9 +36,9 @@
 
     $("#save").on("click", function(){
 
-        $.post("/savedArticle",function(data){
+        $.post("/note",function(data){
+            console.log("SOMETHING HAPPENED");
             
-            location.reload();
         });
     });
 

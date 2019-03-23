@@ -5,15 +5,23 @@ let Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new savedArticleSchema object
 
-let savedArticleSchema = new Schema({
+let noteschema = new Schema({
   // `title` is of type String
-  title: String,
+  _articleId:{
+    type: Schema.Types.ObjectId,
+    ref: "articles"
+  },
+
+  date: {
+    type: Date,
+    default: Date.now
+  },
   // `body` is of type String
   body: String
 });
 
 // This creates our model from the above schema, using mongoose's model method
-let savedArticle = mongoose.model("savedArticle", savedArticleSchema);
+let Note = mongoose.model("Note", noteschema);
 
 // Export the savedArticle model
-module.exports = savedArticle;
+module.exports = Note;
