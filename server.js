@@ -14,7 +14,7 @@ let exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-let PORT = 3000;
+let PORT = process.env.PORT || 3000;
 
 //morgan and body parser
 app.use(logger('dev'));
