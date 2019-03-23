@@ -1,2 +1,52 @@
-<h1 class="header">News Scrapper</h1>
+<link rel="stylesheet" href="assets/css/articleStyle.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<div class="jumbotron jumbotron-fluid" style="background-color:rgb(137, 200, 202); font-family:'Courier New', Courier, monospace;">
+  <div class="container">
+    <h1 id="header">News Scrapper</h1>
+    <br>
+<button id="scrape" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">Scrape New Articles</button>
+  </div>
+</div>
 
+<br><br>
+
+
+{{#each items}}
+<div class="card">
+    <div class="card-body">
+
+    <h2 id="save" class="card-header" style="background-color:antiquewhite; font-size:25px">{{headline}} <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="float:right;">Save Article</button></h2>
+    
+    <br>
+    <a id="linkBody" href={{link}}>{{link}}</a>
+<br> <br>
+</div>
+</div>
+{{/each}}
+
+
+<script>
+    $("#scrape").on("click", function(){
+
+        $.get("/scrape",function(data){
+            alert(data);
+            location.reload();
+        });
+    });
+
+    $("#save").on("click", function(){
+
+        $.post("/savedArticle",function(data){
+            
+            location.reload();
+        });
+    });
+
+
+</script>
+
+<style>
+
+
+
+</style>

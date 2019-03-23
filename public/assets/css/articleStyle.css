@@ -1,6 +1,18 @@
 
-.header{
-    background-color: lightcoral;
+#headline{
+    font-size: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: lightblue;
     
+};
+#linkBody{
+    background-color: antiquewhite;
+    font-size: 15px;
+    
+};
+#scrapeResult{
 
-}
+    border: 10px;
+    border-color: lightblue;
+
+};
